@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+<body>
+    <!-- Main -->
+    <section :style="{ backgroundImage: 'url(' + require('../assets/images/background.jpg') + ')' }">
+      <div class="container items-center">
+
+        <!-- Content -->
+        <div class="flex flex-1 flex-col items-center lg:pl-2">
+
+          <!-- Welcome -->
+          <h1 class="text-navy font-medium text-3xl  text-center mt-8 mb-2">
+            About Me
+          </h1>
+          <p class="text-navy font-medium text-md text-center mb-5">
+            
+          </p>
+            
+        </div>
+    </div>
+    </section>
+
+    <!-- Who am I -->
+    <section class="py-20">
+
+      <!-- Header -->
+      <div class="w-3/4 lg:w-5/12 mx-auto px-2">
+        <h2 class="text-3xl text-center text-navy">Who Am I?</h2>
+        <p class="text-center text-md text-gray-500 mt-4 mb-5">
+            This is a wildfire database project.            
+        </p>
+      </div>
+    </section
+  </body>
+{% endblock content %}

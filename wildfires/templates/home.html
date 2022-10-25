@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="text-center mb-5">Welcome to Amazon Price Tracker</h1>
+
+<div class="content-section"> 
+  <form method="POST" action=""> 
+      {{ form.hidden_tag() }}
+      <fieldset class="formgroup">
+          <div class="form-group">
+              {{ form.search.label(class="form-control-label") }}
+              {% if form.search.errors %}
+                  {{ form.search.label(class="form-control form-control-lg is-invalid") }}
+                  <div class="invalid-feedback">
+                      {% for error in form.search.errors %}
+                          <span>{{ error }}</span>
+                      {% endfor %}
+                  </div>
+              {% else %}
+                  {{ form.search(class="form-control form-control-lg") }}
+              {% endif %}
+              
+          </div>
+      </fieldset>
+      <div class="form-group">
+        {{ form.submit(class="btn btn-outline-info") }}
+    </div>
+  </form>
+</div> 
+{% endblock content %}
