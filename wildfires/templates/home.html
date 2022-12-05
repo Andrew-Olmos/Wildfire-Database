@@ -25,30 +25,32 @@
            {{ form.submit(class="btn btn-outline-info") }}
        </div>
      </form>
-   </div> 
-
-<div class="text-center content-section"> 
-     {{ googlemap(
-     identifier="test-map", 
-     lat=39.8283, 
-     lng=-98.5795,
-     zoom=3,
-     maptype='TERRAIN',
-     zoom_control=false,
-     streetview_control=false,
-     fullscreen_control=false,
-     maptype_control=false,
-     mapdisplay=flase,
-     collapsible=false,
-     scale_control=false,
-     center_on_user_location=false,
-     markers=[
-            {
-                'icon': '/static/icons/fire_icon.png',
-                'lat':  37.0902,
-                'lng':  -95.7129,
-                'infobox': "Put Fire Info Here"
-            }]
-     ) }}
 </div> 
+
+
+<div class="d-flex flex-row justify-content-center mb-5">
+        {{ googlemap(
+            identifier="test-map", 
+                lat=39.8283, 
+                lng=-98.5795,
+            zoom=4,
+            style="display: flex;flex-direction: row;flex-grow:1;height:calc(100vh - 100px);width:calc(100vw - 100px);margin:0;",
+            maptype='TERRAIN',
+            zoom_control=false,
+            streetview_control=false,
+            fullscreen_control=false,
+            maptype_control=false,
+            mapdisplay=flase,
+            collapsible=false,
+            scale_control=false,
+            center_on_user_location=false,
+            markers=[
+                    {
+                        'icon': '/static/icons/fire_icon.png',
+                        'lat':  37.0902,
+                        'lng':  -95.7129,
+                        'infobox': "Put Fire Info Here"
+                    }]
+            ) }}
+    </div>
 {% endblock content %}
