@@ -3,7 +3,7 @@
 <h1 class="text-center mb-5">Welcome to Wildfire Database</h1>
 
 <div class="content-section"> 
-     <form method="POST" action=""> 
+     <form method="POST" action=""> <!-- State -->
          {{ form.hidden_tag() }}
          <fieldset class="formgroup">
              <div class="form-group">
@@ -16,6 +16,19 @@
             {{ form.submit(class="btn btn-outline-dark ") }}
        </div>
      </form>
+     <form method="POST" action=""> <!-- Year -->
+        {{ form.hidden_tag() }}
+        <fieldset class="formgroup">
+            <div class="form-group">
+               {{ form.year.label }}
+               {{ form.year(class="form-control form-control-md") }}  
+            </div>
+        </fieldset>
+        <div class="form-group">
+           {{ form.year.data }}
+           {{ form.submit(class="btn btn-outline-dark ") }}
+      </div>
+    </form>
 </div> 
 {% if fires %}
 
