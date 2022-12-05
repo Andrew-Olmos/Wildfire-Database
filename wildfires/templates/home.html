@@ -22,13 +22,66 @@
              </div>
          </fieldset>
          <div class="form-group">
-           {{ form.submit(class="btn btn-outline-info") }}
+           {{ form.submit(class="btn btn-outline-dark ") }}
        </div>
      </form>
 </div> 
 
+  <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Year</th>
+        <th>State</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for fire in fires.items %}
+        <tr>
+            <td>{{fire.FPA_ID}}</td>
+            <td>{{fire.FIRE_NAME}}</td>
+            <td>{{fire.FIRE_YEAR}}</td>
+            <td>{{fire.STATE}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
 
-<div class="d-flex flex-row justify-content-center mb-5">
+  <!-- Pagination Links-->
+<div class="text-right">
+    <a href="{{ url_for('main.home', page=fires.prev_num) }}"
+       class="btn btn-outline-dark 
+       {% if fires.page == 1 %}disabled{% endif %}">
+        &laquo;
+    </a><!-- Loop through the number of pages to display a link for each-->
+    {% for page_num in fires.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}{% if page_num %}
+<!-- Check for the active page and set the link to "Active"-->
+            {% if fires.page == page_num %}
+            <a href="{{ url_for('main.home', page=page_num) }}"
+               class="btn btn-dark">
+                {{ page_num }}
+            </a>
+            {% else %}
+            <a href="{{ url_for('main.home', page=page_num) }}"
+               class="btn btn-outline-dark">
+                {{ page_num }}
+            </a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}    <a href="{{ url_for('main.home', page=fires.next_num) }}"
+       class="btn btn-outline-dark 
+       {% if fires.page == fires.pages %}disabled{% endif %}">
+        &raquo;
+    </a>
+</div>
+<p class="text-right mt-3">
+   Showing page {{ fires.page }} of {{ fires.pages }}
+</p>
+
+<!-- <div class="d-flex flex-row justify-content-center mb-5">
         {{ googlemap(
             identifier="test-map", 
                 lat=39.8283, 
@@ -52,5 +105,5 @@
                         'infobox': "Put Fire Info Here"
                     }]
             ) }}
-    </div>
+    </div> -->
 {% endblock content %}
