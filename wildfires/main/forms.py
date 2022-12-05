@@ -1,8 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField
-#from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired
-from wildfires.models import Fire
+
 
 class SearchForm(FlaskForm):
     search = StringField("Search for an Item", validators=[DataRequired()])
@@ -17,5 +16,5 @@ class SearchForm(FlaskForm):
     ('OH', 'Ohio'), ('OK', 'Oklahoma'), ('OR', 'Oregon'), ('PA', 'Pennsylvania'), ('PR', 'Puerto Rico'), ('RI', 'Rhode Island'),('SC', 'South Carolina'), 
     ('SD', 'South Dakota'), ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'), ('VA', 'Virginia'), ('VI', 'Virgin Islands'),('VT', 'Vermont'), 
     ('WA', 'Washington'), ('WI', 'Wisconsin'), ('WV', 'West Virginia'), ('WY', 'Wyoming')]
-    states = SelectField(u"State", choices = stateChoices, validators = [DataRequired()])
+    state = SelectField(u"State", choices = stateChoices, validators = [DataRequired()])
     submit = SubmitField("Search")
