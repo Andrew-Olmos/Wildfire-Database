@@ -52,6 +52,9 @@ class Fire(db.Model):
     Reporters = db.relationship('Reporter', secondary='Reporting_Sources', backref='fires')
     Systems = db.relationship('System', secondary='System_Sources', backref='fires')
 
+    def __repr__(self):
+        return f"{self.STATE}"
+
 
 
 t_NWCG_Sources = db.Table(

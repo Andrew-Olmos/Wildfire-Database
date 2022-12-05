@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField
+from wtforms import StringField, SubmitField, SelectField
+#from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired
+from wildfires.models import Fire
 
 class SearchForm(FlaskForm):
     search = StringField("Search for an Item", validators=[DataRequired()])

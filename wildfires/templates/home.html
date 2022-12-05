@@ -7,25 +7,17 @@
          {{ form.hidden_tag() }}
          <fieldset class="formgroup">
              <div class="form-group">
-                 {{ form.search.label(class="form-control-label") }}
-                 {% if form.search.errors %}
-                     {{ form.search.label(class="form-control form-control-lg is-invalid") }}
-                     <div class="invalid-feedback">
-                         {% for error in form.search.errors %}
-                             <span>{{ error }}</span>
-                         {% endfor %}
-                     </div>
-                 {% else %}
-                     {{ form.search(class="form-control form-control-lg") }}
-                 {% endif %}
-                 
+                {{ form.state.label }}
+                {{ form.state(class="form-control form-control-md") }}  
              </div>
          </fieldset>
          <div class="form-group">
-           {{ form.submit(class="btn btn-outline-dark ") }}
+            {{ form.state.data }}
+            {{ form.submit(class="btn btn-outline-dark ") }}
        </div>
      </form>
 </div> 
+{% if fires %}
 
   <table id="data" class="table table-striped">
     <thead>
@@ -80,6 +72,8 @@
 <p class="text-right mt-3">
    Showing page {{ fires.page }} of {{ fires.pages }}
 </p>
+
+{% endif %}
 
 <!-- <div class="d-flex flex-row justify-content-center mb-5">
         {{ googlemap(
