@@ -16,7 +16,8 @@ def home():
     fires = Fire.query.filter_by(FIRE_YEAR='2011').paginate(page=page, per_page=ROWS_PER_PAGE)
     if form.validate_on_submit():
         state = form.state.data
-        fires = Fire.query.filter((Fire.FIRE_YEAR == '2011'), (Fire.STATE == state)).paginate(page=page, per_page=ROWS_PER_PAGE)
+        year = form.year.data
+        fires = Fire.query.filter((Fire.FIRE_YEAR == year), (Fire.STATE == state)).paginate(page=page, per_page=ROWS_PER_PAGE)
         return render_template("home.html", form=form, fires=fires)
     return render_template("home.html", form=form, fires=fires)
 

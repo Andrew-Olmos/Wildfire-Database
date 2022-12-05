@@ -9,26 +9,16 @@
              <div class="form-group">
                 {{ form.state.label }}
                 {{ form.state(class="form-control form-control-md") }}  
+
+                {{ form.year.label }}
+                {{ form.year(class="form-control form-control-md") }} 
              </div>
          </fieldset>
          <div class="form-group">
-            {{ form.state.data }}
+            {{ form.state.data }}{{ form.year.data }}
             {{ form.submit(class="btn btn-outline-dark ") }}
        </div>
      </form>
-     <form method="POST" action=""> <!-- Year -->
-        {{ form.hidden_tag() }}
-        <fieldset class="formgroup">
-            <div class="form-group">
-               {{ form.year.label }}
-               {{ form.year(class="form-control form-control-md") }}  
-            </div>
-        </fieldset>
-        <div class="form-group">
-           {{ form.year.data }}
-           {{ form.submit(class="btn btn-outline-dark ") }}
-      </div>
-    </form>
 </div> 
 {% if fires %}
 
