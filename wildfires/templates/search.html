@@ -2,13 +2,13 @@
 {% block content %}
 
 {% if fires %}
-<div class="d-flex flex-row justify-content-center mb-5">
+<div class="d-flex flex-rows justify-content-center mb-5">
     {{ googlemap(
         identifier="test-map",
             lat=39.8283,
             lng=-98.5795,
         zoom=4,
-        style="display: flex;flex-direction: row;flex-grow:1;height:calc(100vh - 100px);width:calc(100vw - 100px);margin:0;",
+        style="display: flex;flex-direction: rows;flex-grow:1;height:calc(100vh - 100px);width:calc(100vw - 100px);margin:0;",
         maptype='TERRAIN',
         zoom_control=false,
         streetview_control=false,
@@ -22,33 +22,44 @@
         ) }}
 </div>
 
-
-
-
-  <table id="data" class="table table-striped">
+<table id="data" class="table table-striped">
     <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Year</th>
-        <th>State</th>
-      </tr>
+        <tr>
+        <th id="ID">ID</th>
+        <th id="Name">Name</th>
+        <th id="State">State</th>
+        <th id="Year">Year</th>
+        <th id="Size">Size</th>
+        <th id="Cause">Cause</th>
+        </tr>
     </thead>
     <tbody>
         {% for fire in fires.items %}
-        <tr>
-            <td>{{fire.FPA_ID}}</td>
-            <td>{{fire.FIRE_NAME}}</td>
-            <td>{{fire.FIRE_YEAR}}</td>
-            <td>{{fire.STATE}}</td>
-        </tr>
+            <tr>
+                <td>{{fire.FPA_ID}}</td>
+                <td>{{fire.FIRE_NAME}}</td>
+                <td>{{fire.STATE}}</td>
+                <td>{{fire.FIRE_YEAR}}</td>
+                <td>{{fire.FIRE_SIZE}}</td>
+                <td>{{fire.STAT_CAUSE_DESCR}}</td>
+            </tr>
+
         {% endfor %}
     </tbody>
-  </table>
+</table>
+
+
+{% set minYear = startYear %}
+{% set maxYear = endYear %}
+{% set numRows = rows %}
+{% set State = state %}
+{% set Sort = sort %}
+{% set Order = order %}
+
 
   <!-- Pagination Links-->
 <div class="text-right">
-    <a href="{{ url_for('main.searchHome', page=fires.prev_num, year=fires.items[0].FIRE_YEAR, state=fires.items[0].STATE ) }}"
+    <a href="{{ url_for('main.searchHome', page=fires.prev_num,  startYear=minYear, endYear=maxYear, state=State, rows=numRows, sort=Sort, order=Order )  }}"
        class="btn btn-outline-dark 
        {% if fires.page == 1 %}disabled{% endif %}">
         &laquo;
@@ -56,12 +67,12 @@
     {% for page_num in fires.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}{% if page_num %}
 <!-- Check for the active page and set the link to "Active"-->
             {% if fires.page == page_num %}
-            <a href="{{ url_for('main.searchHome', page=page_num, year=fires.items[0].FIRE_YEAR, state=fires.items[0].STATE) }}"
+            <a href="{{ url_for('main.searchHome', page=page_num, startYear=minYear, endYear=maxYear, state=State, rows=numRows, sort=Sort, order=Order )  }}"
                class="btn btn-dark">
                 {{ page_num }}
             </a>
             {% else %}
-            <a href="{{ url_for('main.searchHome', page=page_num, year=fires.items[0].FIRE_YEAR, state=fires.items[0].STATE) }}"
+            <a href="{{ url_for('main.searchHome', page=page_num, startYear=minYear, endYear=maxYear, state=State, rows=numRows, sort=Sort, order=Order )   }}"
                class="btn btn-outline-dark">
                 {{ page_num }}
             </a>
@@ -69,7 +80,7 @@
         {% else %}
             ...
         {% endif %}
-    {% endfor %}    <a href="{{ url_for('main.searchHome', page=fires.next_num, year=fires.items[0].FIRE_YEAR, state=fires.items[0].STATE) }}"
+    {% endfor %}    <a href="{{ url_for('main.searchHome', startYear=minYear, endYear=maxYear, state=State, rows=numRows, sort=Sort, order=Order )  }}"
        class="btn btn-outline-dark 
        {% if fires.page == fires.pages %}disabled{% endif %}">
         &raquo;

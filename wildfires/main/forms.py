@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired
 
 class SearchForm(FlaskForm):
     # search = StringField("Search for an Item", validators=[DataRequired()])
-    stateChoices = [('AK', 'Alaska'), ('AL', 'Alabama'), ('AB', 'Alberta'), ('BC', 'British Colombia'), ('MB', 'Manitoba'), 
+    stateChoices = [('', ''), ('AK', 'Alaska'), ('AL', 'Alabama'), ('AB', 'Alberta'), ('BC', 'British Colombia'), ('MB', 'Manitoba'), 
     ('NB', 'New Brunswick'),('NL', 'Newfoundland and Labrador') , ('NS', 'Nova Scotia'), ('NT', 'Northwest Territories') , 
     ('ON', 'Ontario') , ('PE', 'Prince Edward Island'),('QC', 'Quebec'), ('SK', 'Saskatchewan'), ('YK', 'Yukon'), ('76', 'Navassa Island'), 
     ('AR', 'Arkansas'), ('AS', 'American Samoa'), ('AZ', 'Arizona'),('CA', 'California'), ('CO', 'Colorado'), ('CT', 'Connecticut'), 
@@ -22,6 +22,17 @@ class SearchForm(FlaskForm):
     ('2000', '2000'),('2001', '2001'), ('2002', '2002'), ('2003', '2003'), ('2004', '2004'), ('2005', '2005'), ('2006', '2006'), ('2007', '2007'), ('2008', '2008'), 
     ('2009', '2009'), ('2010', '2010'), ('2011', '2011'), ('2012', '2012'), ('2013', '2013'), ('2014', '2014'), ('2015', '2015')]
     
-    year = SelectField(u"Year", choices = yearChoices, validators=[DataRequired()])
-    state = SelectField(u"State", choices = stateChoices, validators = [DataRequired()])
+    rowChoices = [('10', '10'), ('20', '20'), ('50', '50'), ('100', '100')]
+
+    sortChoices = [('FIRE_NAME', 'Name'), ('FPA_ID', 'ID'), ('FIRE_SIZE', 'Size'), ('FIRE_YEAR', 'Year'), ('STATE', 'State'), ('DISCOVERY_DATE', 'Discovery Date'), ('STAT_CAUSE_DESCR', 'Cause')]
+
+    orderChoices = [('ASC', 'Ascending'), ('DESC', 'Descending')]
+
+    startYear = SelectField(u"Start Year", choices = yearChoices, validators=[DataRequired()])
+    endYear = SelectField(u"Start Year", choices = yearChoices, validators=[DataRequired()])
+    state = SelectField(u"State", choices = stateChoices)
+    rows = SelectField(u"Rows per Page", choices = rowChoices, coerce=int, validators = [DataRequired()])
+    sort = SelectField(u"Sort Results By", choices = sortChoices, validators = [DataRequired()])
+    order = SelectField(u"Order Results By", choices = orderChoices, validators = [DataRequired()])
+
     submit = SubmitField("Search")

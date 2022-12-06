@@ -3,10 +3,10 @@ from wildfires.main.forms import SearchForm
 from flask_googlemaps import Map
 from flask_cors import CORS, cross_origin
 from wildfires.models import Fire
+from sqlalchemy import text
 
 main = Blueprint("main", __name__)
 
-ROWS_PER_PAGE = 10
 
 @main.route("/", methods=["GET", "POST"])
 @main.route("/home", methods=["GET", "POST"])
@@ -14,40 +14,41 @@ ROWS_PER_PAGE = 10
 def home():    
     form = SearchForm()
     if form.validate_on_submit():
+        startYear = form.startYear.data
+        endYear = form.endYear.data
         state = form.state.data
-        year = form.year.data
-
-        fires = Fire.query.filter((Fire.FIRE_YEAR == year), (Fire.STATE == state)).paginate(page=1, per_page=ROWS_PER_PAGE)
-        markers = []
-        for fire in fires.items:
-            markers.append({
-                        'icon': '/static/icons/fire_icon.png',
-                        'lat':  fire.LATITUDE,
-                        'lng':  fire.LONGITUDE,
-                        'infobox': "Put Fire Info Here"
-                    })
-        return redirect(url_for('main.searchHome', page=1, year=year, state=state))
+        rows = form.rows.data
+        sort = form.sort.data
+        order = form.order.data
+        
+        return redirect(url_for('main.searchHome', page=1, startYear=startYear, endYear=endYear, state=state, rows=rows, sort=sort, order=order))
     return render_template("home.html", form=form)
 
 
 
-@main.route("/search/<year>/<state>", methods=["GET", "POST"])
+@main.route("/search/<sort>/<order>", methods=["GET", "POST"])
 @cross_origin()
-def searchHome(year, state, page=1):    
+def searchHome(sort, order, state='', startYear=1992, endYear=1992, rows=1, page=1):    
     form = SearchForm()
+    state = request.args.get('state', '', type=str)
     page = request.args.get('page', 1, type=int)
+    rows = request.args.get('rows', 1, type=int)
+    startYear = request.args.get('startYear', 1992, type=int)
+    endYear = request.args.get('endYear', 1992, type=int)
 
-
-    fires = Fire.query.filter((Fire.FIRE_YEAR == year), (Fire.STATE == state)).paginate(page=page, per_page=ROWS_PER_PAGE)
+    if(len(state) < 1):
+        fires = Fire.query.filter((Fire.FIRE_YEAR >= startYear), (Fire.FIRE_YEAR <= endYear)).order_by(text(f'{sort} {order}')).paginate(page=page, per_page=rows)
+    else:
+        fires = Fire.query.filter((Fire.FIRE_YEAR >= startYear), (Fire.FIRE_YEAR <= endYear), (Fire.STATE == state)).order_by(text(f'{sort} {order}')).paginate(page=page, per_page=rows)
     markers = []
     for fire in fires.items:
         markers.append({
                             'icon': '/static/icons/fire_icon.png',
                             'lat':  fire.LATITUDE,
                             'lng':  fire.LONGITUDE,
-                            'infobox': "Put Fire Info Here"
+                            'infobox': f"ID: {fire.FPA_ID} | Name: {fire.FIRE_NAME} | SIZE: {fire.FIRE_SIZE} | Discovery Date: {fire.DISCOVERY_DATE}"
                         })
-    return render_template("search.html", form=form, fires=fires, markers=markers)
+    return render_template("search.html", form=form, fires=fires, markers=markers, startYear=startYear, endYear=endYear, rows=rows, state=state, sort=sort, order=order)
 
 
 @main.route("/about")

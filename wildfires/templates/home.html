@@ -1,17 +1,30 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1 class="text-center mb-5">Welcome to Wildfire Database</h1>
+<h1 class="text-center mb-5">Welcome to the Wildfire Database</h1>
 
 <div class="content-section"> 
      <form method="POST" action=""> <!-- State -->
          {{ form.hidden_tag() }}
          <fieldset class="formgroup">
              <div class="form-group">
-                {{ form.state.label }}
-                {{ form.state(class="form-control form-control-md") }}  
+                {{ form.startYear.label }}
+                {{ form.startYear(class="form-control form-control-md") }}  
 
-                {{ form.year.label }}
-                {{ form.year(class="form-control form-control-md") }} 
+                {{ form.endYear.label }}
+                {{ form.endYear(class="form-control form-control-md") }}
+
+                {{ form.state.label }}
+                {{ form.state(class="form-control form-control-md") }}
+
+                {{ form.rows.label }}
+                {{ form.rows(class="form-control form-control-md") }} 
+
+                {{ form.sort.label }}
+                {{ form.sort(class="form-control form-control-md") }} 
+
+                {{ form.order.label }}
+                {{ form.order(class="form-control form-control-md") }} 
+
              </div>
          </fieldset>
          <div class="form-group">
