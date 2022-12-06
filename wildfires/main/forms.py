@@ -30,7 +30,7 @@ class SearchForm(FlaskForm):
     startYear = SelectField(u"Start Year", choices = yearChoices, validators=[DataRequired()])
     endYear = SelectField(u"Start Year", choices = yearChoices, validators=[DataRequired()])
     state = SelectField(u"State", choices = stateChoices)
-    rows = SelectField(u"Rows per Page", choices = rowChoices, coerce=int, validators = [DataRequired()])
+    rows = SelectField(u"Results per Page", choices = rowChoices, coerce=int, validators = [DataRequired()])
     sort = SelectField(u"Sort Results By", choices = sortChoices, validators = [DataRequired()])
     order = SelectField(u"Order Results By", choices = orderChoices, validators = [DataRequired()])
 

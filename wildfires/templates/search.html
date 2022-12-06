@@ -27,10 +27,10 @@
         <tr>
         <th id="ID">ID</th>
         <th id="Name">Name</th>
-        <th id="State">State</th>
-        <th id="Year">Year</th>
         <th id="Size">Size</th>
         <th id="Cause">Cause</th>
+        <th id="Year">Year</th>
+        <th id="State">State</th>
         </tr>
     </thead>
     <tbody>
@@ -38,10 +38,10 @@
             <tr>
                 <td><a href="{{ url_for('main.fire', ID=fire.FPA_ID )  }}">{{fire.FPA_ID}}</a></td>
                 <td>{{fire.FIRE_NAME}}</td>
-                <td>{{fire.STATE}}</td>
-                <td>{{fire.FIRE_YEAR}}</td>
-                <td>{{fire.FIRE_SIZE}}</td>
+                <td>{{fire.FIRE_SIZE}} Acres</td>
                 <td>{{fire.STAT_CAUSE_DESCR}}</td>
+                <td>{{fire.FIRE_YEAR}}</td>
+                <td>{{fire.STATE}}</td>
             </tr>
 
         {% endfor %}

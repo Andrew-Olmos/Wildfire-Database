@@ -31,22 +31,26 @@
         <tr>
         <th >ID</th>
         <th >Name</th>
-        <th >State</th>
-        <th >Year</th>
         <th >Size</th>
+        <th >Size Class</th>
+        <th >Cause Code</th>
         <th >Cause</th>
-        <th  Unit>NWCG Unit</th>
+        <th >Reporting Unit</th>
+        <th >Year</th>
+        <th >State</th>
         </tr>
     </thead>
     <tbody>
       <tr>
           <td>{{fire.FPA_ID}}</td>
           <td>{{fire.FIRE_NAME}}</td>
-          <td>{{fire.STATE}}</td>
-          <td>{{fire.FIRE_YEAR}}</td>
-          <td>{{fire.FIRE_SIZE}}</td>
+          <td>{{fire.FIRE_SIZE}} Acres</td>
+          <td>{{fire.FIRE_SIZE_CLASS}}</td>
+          <td>{{fire.STAT_CAUSE_CODE}}</td>
           <td>{{fire.STAT_CAUSE_DESCR}}</td>
-          <td>{{NWCG_Unit.Name}}</td>
+          <td>{{fire.SOURCE_REPORTING_UNIT_NAME}}</td>
+          <td>{{fire.FIRE_YEAR}}</td>
+          <td>{{fire.STATE}}</td>
       </tr>
     </tbody>
   </table>
