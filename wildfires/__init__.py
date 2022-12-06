@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from wildfires.config import Config
 from flask_googlemaps import GoogleMaps
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 db = SQLAlchemy()
 
