@@ -1,4 +1,4 @@
 .env
 __pycache__
 wildfires.db
-.DS_Store
+.DS_Store*

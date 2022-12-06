@@ -1,45 +1,83 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div class="content-section"> 
-    <form method="POST" action=""> 
-        {{ form.hidden_tag() }}
-        <fieldset class="formgroup">
-            <div class="form-group">
-                {{ form.search.label(class="form-control-label") }}
-                {% if form.search.errors %}
-                    {{ form.search.label(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.search.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ form.search(class="form-control form-control-lg") }}
-                {% endif %}
-                
-            </div>
-        </fieldset>
-        <div class="form-group">
-          {{ form.submit(class="btn btn-outline-info") }}
-      </div>
-    </form>
-  </div> 
+{% if fires %}
+<div class="d-flex flex-row justify-content-center mb-5">
+    {{ googlemap(
+        identifier="test-map",
+            lat=39.8283,
+            lng=-98.5795,
+        zoom=4,
+        style="display: flex;flex-direction: row;flex-grow:1;height:calc(100vh - 100px);width:calc(100vw - 100px);margin:0;",
+        maptype='TERRAIN',
+        zoom_control=false,
+        streetview_control=false,
+        fullscreen_control=false,
+        maptype_control=false,
+        mapdisplay=flase,
+        collapsible=false,
+        scale_control=false,
+        center_on_user_location=false,
+        markers=markers
+        ) }}
+</div>
 
-{% if query %}
-    <div class="content-section"> 
-        {% for product in products %}
-        <article class="media content-section">
-            <a href="{{ url_for('products.product', asin=product.asin) }}"><img class="article-img mh-100"  src="{{ product.image }}"></a>
-            <div class="media-body">
-                <h5><a class="article-title" href="{{ url_for('products.product', asin=product.asin) }}">{{ product.name }}</a></h5>
-                <h5 class="font-weight-bold mb-3">{{ product.price }}</h5>
-                <p class="text-muted mb-1">{{ product.stars }}</p>
-                <p class="text-muted mb-1">{{ product.ratings }} ratings</p>
 
-            </div>
-        </article>
-    {% endfor %}
-    </div> 
-{% endif %}    
+
+
+  <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Year</th>
+        <th>State</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for fire in fires.items %}
+        <tr>
+            <td>{{fire.FPA_ID}}</td>
+            <td>{{fire.FIRE_NAME}}</td>
+            <td>{{fire.FIRE_YEAR}}</td>
+            <td>{{fire.STATE}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Pagination Links-->
+<div class="text-right">
+    <a href="{{ url_for('main.searchHome', page=fires.prev_num, year=fires.items[0].FIRE_YEAR, state=fires.items[0].STATE ) }}"
+       class="btn btn-outline-dark 
+       {% if fires.page == 1 %}disabled{% endif %}">
+        &laquo;
+    </a><!-- Loop through the number of pages to display a link for each-->
+    {% for page_num in fires.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}{% if page_num %}
+<!-- Check for the active page and set the link to "Active"-->
+            {% if fires.page == page_num %}
+            <a href="{{ url_for('main.searchHome', page=page_num, year=fires.items[0].FIRE_YEAR, state=fires.items[0].STATE) }}"
+               class="btn btn-dark">
+                {{ page_num }}
+            </a>
+            {% else %}
+            <a href="{{ url_for('main.searchHome', page=page_num, year=fires.items[0].FIRE_YEAR, state=fires.items[0].STATE) }}"
+               class="btn btn-outline-dark">
+                {{ page_num }}
+            </a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}    <a href="{{ url_for('main.searchHome', page=fires.next_num, year=fires.items[0].FIRE_YEAR, state=fires.items[0].STATE) }}"
+       class="btn btn-outline-dark 
+       {% if fires.page == fires.pages %}disabled{% endif %}">
+        &raquo;
+    </a>
+</div>
+<p class="text-right mt-3">
+   Showing page {{ fires.page }} of {{ fires.pages }}
+</p>
+{% endif %}
+
 {% endblock content %}
