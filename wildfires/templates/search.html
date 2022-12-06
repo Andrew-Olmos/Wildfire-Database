@@ -36,7 +36,7 @@
     <tbody>
         {% for fire in fires.items %}
             <tr>
-                <td>{{fire.FPA_ID}}</td>
+                <td><a href="{{ url_for('main.fire', ID=fire.FPA_ID )  }}">{{fire.FPA_ID}}</a></td>
                 <td>{{fire.FIRE_NAME}}</td>
                 <td>{{fire.STATE}}</td>
                 <td>{{fire.FIRE_YEAR}}</td>
@@ -80,7 +80,7 @@
         {% else %}
             ...
         {% endif %}
-    {% endfor %}    <a href="{{ url_for('main.searchHome', startYear=minYear, endYear=maxYear, state=State, rows=numRows, sort=Sort, order=Order )  }}"
+    {% endfor %}    <a href="{{ url_for('main.searchHome', page=fires.next_num, startYear=minYear, endYear=maxYear, state=State, rows=numRows, sort=Sort, order=Order )  }}"
        class="btn btn-outline-dark 
        {% if fires.page == fires.pages %}disabled{% endif %}">
         &raquo;

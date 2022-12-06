@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% set LAT = Lat %}
+{% set LONG = Long %}
+
+<div class="d-flex flex-rows justify-content-center mb-5">
+  {{ googlemap(
+      identifier="test-map",
+          lat=LAT,
+          lng=LONG,
+      zoom=8,
+      style="display: flex;flex-direction: rows;flex-grow:1;height:calc(100vh - 100px);width:calc(100vw - 100px);margin:0;",
+      maptype='TERRAIN',
+      zoom_control=false,
+      streetview_control=false,
+      fullscreen_control=false,
+      maptype_control=false,
+      mapdisplay=flase,
+      collapsible=false,
+      scale_control=false,
+      center_on_user_location=false,
+      markers=markers
+      ) }}
+</div>
+
+<div class="mb-5">
+  <h4>Fire Info</h4>
+  <table data" class="table table-striped">
+    <thead>
+        <tr>
+        <th >ID</th>
+        <th >Name</th>
+        <th >State</th>
+        <th >Year</th>
+        <th >Size</th>
+        <th >Cause</th>
+        <th  Unit>NWCG Unit</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>{{fire.FPA_ID}}</td>
+          <td>{{fire.FIRE_NAME}}</td>
+          <td>{{fire.STATE}}</td>
+          <td>{{fire.FIRE_YEAR}}</td>
+          <td>{{fire.FIRE_SIZE}}</td>
+          <td>{{fire.STAT_CAUSE_DESCR}}</td>
+          <td>{{NWCG_Unit.Name}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="mb-5">
+  <h4>NWCG Unit Info</h4>
+  <table data2" class="table table-striped">
+    <thead>
+        <tr>
+        <th >ID</th>
+        <th >Name</th>
+        <th >GACC</th>
+        <th >Wildland Role</th>
+        <th >Unit Type</th>
+        <th >Department</th>
+        <th >Country</th>
+        <th >State</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>{{ NWCG_Unit.UnitId }}</td>
+          <td>{{NWCG_Unit.Name}}</td>
+          <td>{{NWCG_Unit.Gacc}}</td>
+          <td>{{NWCG_Unit.WildlandRole}}</td>
+          <td>{{NWCG_Unit.UnitType}}</td>
+          <td>{{NWCG_Unit.Department}}</td>
+          <td>{{NWCG_Unit.Country}}</td>
+          <td>{{NWCG_Unit.State}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{% endblock content %}

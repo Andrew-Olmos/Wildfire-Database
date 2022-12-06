@@ -16,11 +16,9 @@ def create_app(config_class=Config):
     with app.app_context():
         db.init_app(app)
 
-    from wildfires.products.routes import products
     from wildfires.errors.handlers import errors
     from wildfires.main.routes import main
 
-    app.register_blueprint(products)
     app.register_blueprint(errors)
     app.register_blueprint(main)
 

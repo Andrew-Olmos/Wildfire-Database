@@ -2,7 +2,7 @@ from flask import render_template, request, Blueprint, redirect, url_for
 from wildfires.main.forms import SearchForm
 from flask_googlemaps import Map
 from flask_cors import CORS, cross_origin
-from wildfires.models import Fire
+from wildfires.models import Fire, NWCGUnit
 from sqlalchemy import text
 
 main = Blueprint("main", __name__)
@@ -46,9 +46,27 @@ def searchHome(sort, order, state='', startYear=1992, endYear=1992, rows=1, page
                             'icon': '/static/icons/fire_icon.png',
                             'lat':  fire.LATITUDE,
                             'lng':  fire.LONGITUDE,
-                            'infobox': f"ID: {fire.FPA_ID} | Name: {fire.FIRE_NAME} | SIZE: {fire.FIRE_SIZE} | Discovery Date: {fire.DISCOVERY_DATE}"
+                            'infobox': f"ID: {fire.FPA_ID} | Name: {fire.FIRE_NAME} | SIZE: {fire.FIRE_SIZE} | Cause: {fire.STAT_CAUSE_DESCR}"
                         })
     return render_template("search.html", form=form, fires=fires, markers=markers, startYear=startYear, endYear=endYear, rows=rows, state=state, sort=sort, order=order)
+
+
+
+@main.route("/fire/<ID>", methods=["GET", "POST"])
+@cross_origin()
+def fire(ID):    
+    fire = Fire.query.filter((Fire.FPA_ID == ID)).first()
+    NWCG_Unit = NWCGUnit.query.filter((NWCGUnit.UnitId == fire.NWCG_REPORTING_UNIT_ID)).first()
+    Lat = fire.LATITUDE
+    Long = fire.LONGITUDE
+    markers =   [{
+                    'icon': '/static/icons/fire_icon.png',
+                    'lat':  Lat,
+                    'lng':  Long,
+                    'infobox': f"ID: {fire.FPA_ID} | Name: {fire.FIRE_NAME} | SIZE: {fire.FIRE_SIZE} | Cause: {fire.STAT_CAUSE_DESCR}"
+                }]
+    return render_template("fire.html", fire=fire, markers=markers, NWCG_Unit=NWCG_Unit, Lat=Lat, Long=Long)
+
 
 
 @main.route("/about")

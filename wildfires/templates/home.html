@@ -2,28 +2,28 @@
 {% block content %}
 <h1 class="text-center mb-5">Welcome to the Wildfire Database</h1>
 
-<div class="content-section"> 
+<div class="content-section mb-5"> 
      <form method="POST" action=""> <!-- State -->
          {{ form.hidden_tag() }}
          <fieldset class="formgroup">
              <div class="form-group">
-                {{ form.startYear.label }}
-                {{ form.startYear(class="form-control form-control-md") }}  
+                {{ form.startYear.label(class="mb-0") }}
+                {{ form.startYear(class="form-control form-control-md mb-3") }}  
 
-                {{ form.endYear.label }}
-                {{ form.endYear(class="form-control form-control-md") }}
+                {{ form.endYear.label(class="mb-0") }}
+                {{ form.endYear(class="form-control form-control-md mb-3") }}
 
-                {{ form.state.label }}
-                {{ form.state(class="form-control form-control-md") }}
+                {{ form.state.label(class="mb-0") }}
+                {{ form.state(class="form-control form-control-md mb-3") }}
 
-                {{ form.rows.label }}
-                {{ form.rows(class="form-control form-control-md") }} 
+                {{ form.rows.label(class="mb-0") }}
+                {{ form.rows(class="form-control form-control-md mb-3") }} 
 
-                {{ form.sort.label }}
-                {{ form.sort(class="form-control form-control-md") }} 
+                {{ form.sort.label(class="mb-0") }}
+                {{ form.sort(class="form-control form-control-md mb-3") }} 
 
-                {{ form.order.label }}
-                {{ form.order(class="form-control form-control-md") }} 
+                {{ form.order.label(class="mb-0") }}
+                {{ form.order(class="form-control form-control-md mb-3") }} 
 
              </div>
          </fieldset>
