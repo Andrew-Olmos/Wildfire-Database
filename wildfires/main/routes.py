@@ -8,6 +8,19 @@ from sqlalchemy import text
 main = Blueprint("main", __name__)
 
 
+# @main.route('/login', methods=['GET', 'POST'])
+# def login():
+# 	error = None
+# 	if request.method == 'POST':
+# 		username = request.form['username']
+# 		password = request.form['password']
+# 		# Check the username and password against the database here
+# 		# If they match, redirect the user to the home page
+# 		# If they don't match, set an error message
+#         return redirect(url_for('home.html'))
+# 		error = 'Invalid username or password'
+# 	return render_template('login.html', error=error)
+
 @main.route("/", methods=["GET", "POST"])
 @main.route("/home", methods=["GET", "POST"])
 @cross_origin()
@@ -49,7 +62,6 @@ def searchHome(sort, order, state='', startYear=1992, endYear=1992, rows=1, page
                             'infobox': f"ID: {fire.FPA_ID} | Name: {fire.FIRE_NAME} | SIZE: {fire.FIRE_SIZE} | Cause: {fire.STAT_CAUSE_DESCR}"
                         })
     return render_template("search.html", form=form, fires=fires, markers=markers, startYear=startYear, endYear=endYear, rows=rows, state=state, sort=sort, order=order)
-
 
 
 @main.route("/fire/<ID>", methods=["GET", "POST"])

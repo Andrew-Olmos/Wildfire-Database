@@ -1,6 +1,27 @@
 from wildfires import db
 
 
+class Users(db.Model):
+    __tablename__ = "Users"
+    userId = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.String, nullable = False)
+    name = db.Column(db.String, nullable = False)
+    password = db.Column(db.String, nullable = False)
+    type = db.Column(db.Integer, nullable = False)
+    # The type will give us a way to track the type of user we are dealing with, student,teacher, or Admin
+
+    def __init__(self, username, name, password, type):
+        self.username = username
+        self.name = name
+        self.password = password
+        self.type = type
+
+    def check_password(self, password):
+        return self.password == password
+
+    def get_id(self):
+        return self.userId
+
 class County(db.Model):
     __tablename__ = 'Counties'
 
