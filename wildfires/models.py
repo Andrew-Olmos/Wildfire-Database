@@ -76,11 +76,11 @@ class Fire(db.Model):
 
 
 
-t_NWCG_Sources = db.Table(
-    'NWCG_Sources',
-    db.Column('FPA_ID', db.ForeignKey('Fires.FPA_ID')),
-    db.Column('NWCG_UNIT_ID', db.ForeignKey('NWCG_Units.UnitId'))
-)
+    t_NWCG_Sources = db.Table(
+        'NWCG_Sources',
+        db.Column('FPA_ID', db.ForeignKey('Fires.FPA_ID')),
+        db.Column('NWCG_UNIT_ID', db.ForeignKey('NWCG_Units.UnitId'))
+    )
 
 
 
@@ -112,11 +112,11 @@ class Reporter(db.Model):
 
 
 
-t_Reporting_Sources = db.Table(
-    'Reporting_Sources',
-    db.Column('FPA_ID', db.ForeignKey('Fires.FPA_ID')),
-    db.Column('REPORTING_UNIT_ID', db.ForeignKey('Reporters.REPORTING_UNIT_ID'))
-)
+    t_Reporting_Sources = db.Table(
+        'Reporting_Sources',
+        db.Column('FPA_ID', db.ForeignKey('Fires.FPA_ID')),
+        db.Column('REPORTING_UNIT_ID', db.ForeignKey('Reporters.REPORTING_UNIT_ID'))
+    )
 
 
 
@@ -131,11 +131,11 @@ class State(db.Model):
 
 
 
-t_System_Sources = db.Table(
-    'System_Sources',
-    db.Column('FPA_ID', db.ForeignKey('Fires.FPA_ID')),
-    db.Column('SYSTEM_ID', db.ForeignKey('Systems.SYSTEM_ID'))
-)
+    t_System_Sources = db.Table(
+        'System_Sources',
+        db.Column('FPA_ID', db.ForeignKey('Fires.FPA_ID')),
+        db.Column('SYSTEM_ID', db.ForeignKey('Systems.SYSTEM_ID'))
+    )
 
 
 

@@ -21,7 +21,17 @@ main = Blueprint("main", __name__)
 # 		error = 'Invalid username or password'
 # 	return render_template('login.html', error=error)
 
-@main.route("/", methods=["GET", "POST"])
+# @main.route("/", methods=["GET", "POST"])
+# @main.route("/login", methods=["GET", "POST"])
+# @cross_origin()
+# def login():
+#     if request.method == 'POST':
+#         username = request.form['username']
+#         password = request.form['password']
+
+
+
+# @main.route("/", methods=["GET", "POST"])
 @main.route("/home", methods=["GET", "POST"])
 @cross_origin()
 def home():    

@@ -11,12 +11,15 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wildfires.db'
     app.config['SECRET_KEY'] = 'secret_key_here'
+    # app.config['DEVELOPMENT'] = True
     csrf = CSRFProtect(app)
 
     cors = CORS(app)
     GoogleMaps(app)
 
+    # db = SQLAlchemy(app)
     with app.app_context():
+    #     db.create_all()
         db.init_app(app)
 
     from wildfires.errors.handlers import errors
