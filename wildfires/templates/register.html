@@ -8,16 +8,17 @@
 
     <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}"> -->
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}" >
-    <title>Login</title>
+    <title>Register</title>
 </head>
 <body>
-    <h1>Login Page</h1>
+    <h1>Register Page</h1>
 	{% if error %}
 		<p>{{ error }}</p>
 	{% endif %}
-	<form id="login" action="{{ url_for('main.login') }}" method="POST">
+	<form id="register" action="{{ url_for('main.register') }}" method="POST">
         {{ form.hidden_tag() }}
         {{ form.username }}
+		{{	form.name  }}
         {{ form.password }}
         {{ form.submit }}
 			<input type="hidden" name="csrf_token"  value="{{ csrf_token() }}" >

@@ -5,6 +5,7 @@ from flask_googlemaps import GoogleMaps
 from flask_wtf.csrf import CSRFProtect
 from flask_cors import CORS
 from flask_login import login_user, LoginManager
+from flask_bcrypt import Bcrypt
 
 csrf = CSRFProtect()
 cors = CORS()
@@ -18,6 +19,7 @@ def create_app(config_class=Config):
     # app.config['DEVELOPMENT'] = True
     csrf.init_app(app)
     cors.init_app(app)
+    bcrypt = Bcrypt(app)
     db.init_app(app)
     login_manager.init_app(app)
 
@@ -34,9 +36,12 @@ def create_app(config_class=Config):
         #db.init_app(app)
 
     from wildfires.errors.handlers import errors
-    from wildfires.main.routes import main
+    from wildfires.main.routes import main, register
+
+
 
     app.register_blueprint(errors)
     app.register_blueprint(main)
+
 
     return app

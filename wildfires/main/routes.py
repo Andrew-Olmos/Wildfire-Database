@@ -1,21 +1,24 @@
 from flask import render_template, request, Blueprint, redirect, url_for, flash
 from flask_login import login_user, LoginManager, current_user, logout_user, login_required
-from wildfires.main.forms import SearchForm, LoginForm
+from wildfires.main.forms import SearchForm, LoginForm, RegisterForm
 from flask_googlemaps import Map
 from flask_cors import CORS, cross_origin
 from wildfires.models import Fire, NWCGUnit, Users
 from sqlalchemy import text
-from wildfires import login_manager
+from wildfires import login_manager, db
+from flask_bcrypt import Bcrypt, generate_password_hash, check_password_hash
 
 main = Blueprint("main", __name__)
 
 # login_manager = LoginManager()
 # login_manager.init_app(app)
 # login_manager.login_view = 'login'
-# 
+#
+
+
 @login_manager.user_loader
 def load_user(user_id):
-    return Users.query.get(int(userId))
+    return Users.query.get(user_id)
 
 @main.route("/", methods=["GET", "POST"])
 @main.route("/login", methods=["GET", "POST"])
@@ -29,7 +32,10 @@ def login():
         # print("request")
         user = Users.query.filter_by(username=form.username.data).first()
         print("User: ", user)
-        if user is None or not user.check_password(str(form.password.data)):
+        print(form.password.data)
+        check = check_password_hash(user.password, form.password.data)
+        print(check)
+        if user is None or not check:
             flash('Invalid username or password', 'error')
             return redirect(url_for('main.login'))
         login_user(user)
@@ -40,6 +46,7 @@ def login():
 # @main.route("/", methods=["GET", "POST"])
 @main.route("/home", methods=["GET", "POST"])
 @cross_origin()
+@login_required
 def home():    
     form = SearchForm()
     if form.validate_on_submit():
@@ -51,7 +58,7 @@ def home():
         order = form.order.data
         
         return redirect(url_for('main.searchHome', page=1, startYear=startYear, endYear=endYear, state=state, rows=rows, sort=sort, order=order))
-    return render_template("home.html", form=form)
+    return render_template("home.html", user = current_user.name, form=form)
 
 
 
@@ -107,10 +114,10 @@ def register():
     form = RegisterForm()
 
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(username=form.username.data, password=hashed_password)
+        hashed_password = generate_password_hash(form.password.data, 10)
+        new_user = Users(username=form.username.data, name=form.name.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
 
     return render_template('register.html', form=form)
