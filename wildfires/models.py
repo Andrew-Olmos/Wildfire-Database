@@ -1,13 +1,14 @@
 from wildfires import db
+from flask_login import UserMixin
 
 
-class Users(db.Model):
+class Users(db.Model, UserMixin):
     __tablename__ = "Users"
     userId = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String, nullable = False)
-    name = db.Column(db.String, nullable = False)
-    password = db.Column(db.String, nullable = False)
-    # The type will give us a way to track the type of user we are dealing with, student,teacher, or Admin
+    username = db.Column(db.Text, nullable = False)
+    name = db.Column(db.Text, nullable = False)
+    password = db.Column(db.Text, nullable = False)
+    # The type will give us a way to track the type of user we are dealing with
 
     def __init__(self, username, name, password):
         self.username = username
@@ -19,6 +20,8 @@ class Users(db.Model):
 
     def get_id(self):
         return self.userId
+
+
 
 class County(db.Model):
     __tablename__ = 'Counties'

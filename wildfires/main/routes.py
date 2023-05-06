@@ -1,29 +1,41 @@
 from flask import render_template, request, Blueprint, redirect, url_for, flash
-from flask_login import login_user, current_user, logout_user, login_required
-from wildfires.main.forms import SearchForm
+from flask_login import login_user, LoginManager, current_user, logout_user, login_required
+from wildfires.main.forms import SearchForm, LoginForm
 from flask_googlemaps import Map
 from flask_cors import CORS, cross_origin
 from wildfires.models import Fire, NWCGUnit, Users
 from sqlalchemy import text
+from wildfires import login_manager
 
 main = Blueprint("main", __name__)
+
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+# login_manager.login_view = 'login'
+# 
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(userId))
 
 @main.route("/", methods=["GET", "POST"])
 @main.route("/login", methods=["GET", "POST"])
 # @cross_origin()
 def login():
-    form = SearchForm()
+    form = LoginForm()
     csrf_token = form.csrf_token
-    if request.method == "POST":
-        data = request.get_json()
-        user = Users.query.filter_by(username=data['username']).first()
-        if user is None or not user.check_password(data['password']):
+    if form.validate_on_submit():
+        print("Post Method")
+        # data = request.get_json()
+        # print("request")
+        user = Users.query.filter_by(username=form.username.data).first()
+        print("User: ", user)
+        if user is None or not user.check_password(str(form.password.data)):
             flash('Invalid username or password', 'error')
             return redirect(url_for('main.login'))
         login_user(user)
         return redirect(url_for('main.home', form=form, csrf_token=csrf_token))
     else:
-        return render_template('login.html')
+        return render_template('login.html', form=form)
 
 # @main.route("/", methods=["GET", "POST"])
 @main.route("/home", methods=["GET", "POST"])
@@ -88,3 +100,17 @@ def fire(ID):
 @main.route("/about")
 def about():
     return render_template("about.html", title="About")
+
+
+@main.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data)
+        new_user = User(username=form.username.data, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('login'))
+
+    return render_template('register.html', form=form)
