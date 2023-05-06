@@ -1,35 +1,29 @@
-from flask import render_template, request, Blueprint, redirect, url_for
+from flask import render_template, request, Blueprint, redirect, url_for, flash
+from flask_login import login_user, current_user, logout_user, login_required
 from wildfires.main.forms import SearchForm
 from flask_googlemaps import Map
 from flask_cors import CORS, cross_origin
-from wildfires.models import Fire, NWCGUnit
+from wildfires.models import Fire, NWCGUnit, Users
 from sqlalchemy import text
 
 main = Blueprint("main", __name__)
 
-
-# @main.route('/login', methods=['GET', 'POST'])
-# def login():
-# 	error = None
-# 	if request.method == 'POST':
-# 		username = request.form['username']
-# 		password = request.form['password']
-# 		# Check the username and password against the database here
-# 		# If they match, redirect the user to the home page
-# 		# If they don't match, set an error message
-#         return redirect(url_for('home.html'))
-# 		error = 'Invalid username or password'
-# 	return render_template('login.html', error=error)
-
-# @main.route("/", methods=["GET", "POST"])
-# @main.route("/login", methods=["GET", "POST"])
+@main.route("/", methods=["GET", "POST"])
+@main.route("/login", methods=["GET", "POST"])
 # @cross_origin()
-# def login():
-#     if request.method == 'POST':
-#         username = request.form['username']
-#         password = request.form['password']
-
-
+def login():
+    form = SearchForm()
+    csrf_token = form.csrf_token
+    if request.method == "POST":
+        data = request.get_json()
+        user = Users.query.filter_by(username=data['username']).first()
+        if user is None or not user.check_password(data['password']):
+            flash('Invalid username or password', 'error')
+            return redirect(url_for('main.login'))
+        login_user(user)
+        return redirect(url_for('main.home', form=form, csrf_token=csrf_token))
+    else:
+        return render_template('login.html')
 
 # @main.route("/", methods=["GET", "POST"])
 @main.route("/home", methods=["GET", "POST"])
